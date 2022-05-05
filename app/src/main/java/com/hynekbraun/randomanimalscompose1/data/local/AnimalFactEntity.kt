@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity()
-data class AnimalEntity(
+data class AnimalFactEntity(
     val active_time: String,
     val animal_type: String,
     val diet: String,

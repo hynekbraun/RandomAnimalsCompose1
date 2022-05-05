@@ -10,8 +10,8 @@ import androidx.room.Query
 interface AnimalDao {
 
     @Insert(onConflict = REPLACE)
-    suspend fun insertAnimals(animalList: List<AnimalEntity>)
+    suspend fun insertAnimals(animalFactList: List<AnimalFactEntity>)
 
-    @Query("DELETE FROM animalentity")
+    @Query("DELETE FROM animalfactentity")
     suspend fun deleteAnimals()
 }
