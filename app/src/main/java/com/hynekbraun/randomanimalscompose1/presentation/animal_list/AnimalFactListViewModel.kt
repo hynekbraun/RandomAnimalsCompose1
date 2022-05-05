@@ -1,8 +1,8 @@
 package com.hynekbraun.randomanimalscompose1.presentation.animal_list
 
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -36,7 +36,7 @@ constructor(
         }
     }
 
-    fun getAnimalFactList(fetchFromRemote: Boolean = false) {
+    private fun getAnimalFactList(fetchFromRemote: Boolean = false) {
 
         viewModelScope.launch {
             repository.getAnimalFacts(fetchFromRemote = fetchFromRemote)
@@ -47,12 +47,17 @@ constructor(
                                 state =
                                     state.copy(data = animalFacts)
                             }
+                            Log.d("TAG", "AnimalFactViewModel - Success")
                         }
                         is Resource.Loading -> {
                             state = state.copy(isLoading = result.isLoading)
+                            Log.d("TAG", "AnimalFactViewModel - Loading")
+
                         }
                         is Resource.Error -> {
                             state = state.copy(error = result.message)
+                            Log.d("TAG", "AnimalFactViewModel - Error")
+
                         }
                     }
                 }

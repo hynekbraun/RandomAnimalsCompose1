@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">RandomAnimalsCompose1</string>
+    <string name="contentDesc_image">Animal Image</string>
 </resources>
