@@ -1,4 +1,4 @@
-package com.hynekbraun.randomanimalscompose1.resource
+package com.hynekbraun.randomanimalscompose1.util
 
 sealed class Resource<T>(val data: T? = null, val message: String? = null) {
     class Success<T>(data: T) : Resource<T>(data)
