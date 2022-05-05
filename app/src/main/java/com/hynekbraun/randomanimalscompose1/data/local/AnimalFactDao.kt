@@ -4,14 +4,18 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy.REPLACE
 import androidx.room.Query
+import java.util.concurrent.Flow
 
 
 @Dao
-interface AnimalDao {
+interface AnimalFactDao {
 
     @Insert(onConflict = REPLACE)
     suspend fun insertAnimals(animalFactList: List<AnimalFactEntity>)
 
     @Query("DELETE FROM animalfactentity")
     suspend fun deleteAnimals()
+
+    @Query("SELECT * FROM animalfactentity")
+    suspend fun getAnimals(): List<AnimalFactEntity>
 }

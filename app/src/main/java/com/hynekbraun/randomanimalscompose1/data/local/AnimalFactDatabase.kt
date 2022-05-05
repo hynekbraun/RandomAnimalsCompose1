@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
     entities = [AnimalFactEntity::class],
     version = 1
 )
-abstract class AnimalDatabase : RoomDatabase() {
+abstract class AnimalFactDatabase : RoomDatabase() {
 
-    abstract val dao: AnimalDao
+    abstract val factDao: AnimalFactDao
 }
