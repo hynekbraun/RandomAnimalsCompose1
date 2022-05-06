@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">RandomAnimalsCompose1</string>
     <string name="contentDesc_image">Animal Image</string>
+    <string name="text_error">Error</string>
 </resources>

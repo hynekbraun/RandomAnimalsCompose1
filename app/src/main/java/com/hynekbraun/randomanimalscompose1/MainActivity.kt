@@ -25,10 +25,8 @@ class MainActivity : ComponentActivity() {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                 ) {
-                    Column {
-                        Text(text = "There should be the list of animals")
-                        AnimalFactListScreen()
-                    }
+                    AnimalFactListScreen()
+
                 }
             }
         }
