@@ -18,9 +18,14 @@ import androidx.compose.runtime.currentCompositionLocalContext
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.Bottom
+import androidx.compose.ui.Alignment.Companion.Center
+import androidx.compose.ui.Alignment.Companion.CenterHorizontally
+import androidx.compose.ui.Alignment.Companion.End
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -52,47 +57,57 @@ fun AnimalFactListScreen(
 
 @Composable
 fun AnimalFactListItem(modifier: Modifier, animalFact: AnimalFact) {
-    //TODO The loading bar indicator is at the top, need to put it in the middle. Might have to
-    //TODO set fixed height, but that looks bad since the picture have all sizes
-    Box(
-        contentAlignment = Alignment.Center,
+    Card(
         modifier = modifier
             .padding(6.dp)
-            .fillMaxWidth(0.8f)
-            .shadow(10.dp, MaterialTheme.shapes.medium)
+            .fillMaxWidth(0.9f)
+            .height(200.dp)
     ) {
-        SubcomposeAsyncImage(
-            modifier = Modifier
-                .padding(4.dp)
-                .align(Alignment.Center)
-                .clip(MaterialTheme.shapes.medium),
-            model = animalFact.image_link,
-            contentDescription = stringResource(
-                R.string.contentDesc_image
-            ),
-            loading = {
-                CircularProgressIndicator(
-                    modifier = Modifier
-                        .height(200.dp)
-                        .align(Alignment.Center),
-                )
-            },
-            error = {
-                Image(
-                    painter = painterResource(id = R.drawable.ic_error),
-                    contentDescription = stringResource(
-                        R.string.text_error,
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier.background(
+                brush = Brush.verticalGradient(
+                    colors = listOf(
+                        Color.Gray,
+                        Color.LightGray
                     )
                 )
-            },
-        )
-        Text(
-            text = animalFact.name,
-            modifier = Modifier
-                .fillMaxSize()
-                .align(Alignment.BottomCenter),
-            textAlign = TextAlign.Center
-        )
+            )
+        ) {
+            Text(
+                text = animalFact.name,
+                modifier = Modifier
+            )
+            SubcomposeAsyncImage(
+                modifier = Modifier
+                    .padding(4.dp)
+                    .clip(MaterialTheme.shapes.medium),
+                model = animalFact.image_link,
+                contentDescription = stringResource(
+                    R.string.contentDesc_image
+                ),
+                loading = {
+                    Box(
+                        modifier
+                            .fillMaxSize()
+                    ) {
+                        CircularProgressIndicator(
+                            modifier = Modifier
+                                .align(Center)
+                        )
+                    }
+                },
+                error = {
+                    Image(
+                        modifier = Modifier.fillMaxSize(),
+                        painter = painterResource(id = R.drawable.ic_error),
+                        contentDescription = stringResource(
+                            R.string.text_error,
+                        )
+                    )
+                },
+            )
+        }
     }
 
 }
