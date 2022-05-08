@@ -9,6 +9,7 @@ import com.hynekbraun.randomanimalscompose1.domain.repository.AnimalFactReposito
 import com.hynekbraun.randomanimalscompose1.util.Resource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
 import retrofit2.HttpException
 import java.io.IOException
 import javax.inject.Inject
@@ -31,7 +32,7 @@ constructor(
             val shouldLoadFromCache = !isDBEmpty && !fetchFromRemote
             if (shouldLoadFromCache) {
                 emit(Resource.Loading(isLoading = false))
-            //if shouldLoadFromCache is true, it loads the data and stops here
+                //if shouldLoadFromCache is true, it loads the data and stops here
                 return@flow
             }
             try {
@@ -47,4 +48,8 @@ constructor(
                 emit(Resource.Error(message = e.localizedMessage))
             }
         }
+
+    override suspend fun getAnimaFactById(id: Int): AnimalFact {
+        return dao.getAnimalById(id).toAnimalFact()
+    }
 }

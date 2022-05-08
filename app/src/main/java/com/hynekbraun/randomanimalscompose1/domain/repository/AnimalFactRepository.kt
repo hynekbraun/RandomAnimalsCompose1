@@ -7,4 +7,6 @@ import kotlinx.coroutines.flow.Flow
 interface AnimalFactRepository {
 
     suspend fun getAnimalFacts(fetchFromRemote: Boolean): Flow<Resource<List<AnimalFact>>>
+
+    suspend fun getAnimaFactById(id: Int): AnimalFact
 }

@@ -7,6 +7,4 @@ data class AnimalFactListState(
     val isLoading: Boolean = false,
     val isRefreshing: Boolean = false,
     val error: String? = null
-
-
 )

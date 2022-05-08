@@ -106,7 +106,7 @@ fun AnimalFactListItem(modifier: Modifier, animalFact: AnimalFact) {
                         modifier = Modifier.fillMaxSize(),
                         painter = painterResource(id = R.drawable.ic_error),
                         contentDescription = stringResource(
-                            R.string.text_error,
+                            R.string.common_error,
                         )
                     )
                 },

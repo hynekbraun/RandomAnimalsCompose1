@@ -4,7 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy.REPLACE
 import androidx.room.Query
-import java.util.concurrent.Flow
+import kotlinx.coroutines.flow.Flow
 
 
 @Dao
@@ -18,4 +18,7 @@ interface AnimalFactDao {
 
     @Query("SELECT * FROM animalfactentity")
     suspend fun getAnimals(): List<AnimalFactEntity>
+
+    @Query("SELECT * FROM animalfactentity WHERE id = :id")
+    suspend fun getAnimalById(id: Int): AnimalFactEntity
 }

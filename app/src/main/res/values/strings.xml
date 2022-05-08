@@ -1,5 +1,11 @@
 <resources>
+
+    //common
     <string name="app_name">RandomAnimalsCompose1</string>
+    <string name="common_error">Error</string>
+
+    //AnimalFact List Screen
     <string name="contentDesc_image">Animal Image</string>
-    <string name="text_error">Error</string>
+
+
 </resources>
