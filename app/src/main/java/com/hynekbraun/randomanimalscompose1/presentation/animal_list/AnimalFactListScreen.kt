@@ -29,28 +29,32 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import coil.compose.AsyncImage
 import coil.compose.SubcomposeAsyncImage
-import coil.compose.rememberAsyncImagePainter
+import com.google.accompanist.swiperefresh.SwipeRefresh
+import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.hynekbraun.randomanimalscompose1.R
 import com.hynekbraun.randomanimalscompose1.domain.model.AnimalFact
-import kotlinx.coroutines.withContext
-import kotlin.coroutines.coroutineContext
 
 @Composable
 fun AnimalFactListScreen(
     viewModel: AnimalFactListViewModel = hiltViewModel()
 ) {
+    val swipeRefreshState = rememberSwipeRefreshState(
+        isRefreshing = viewModel.state.isRefreshing
+    )
     val state = viewModel.state
-    LazyColumn(
-        modifier = Modifier.padding(all = 6.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        items(state.data) { animalFact ->
-            AnimalFactListItem(modifier = Modifier, animalFact = animalFact)
+    SwipeRefresh(state = swipeRefreshState, onRefresh = {
+        viewModel.onEvent(AnimalFactListEvent.Refresh)
+    }) {
+        LazyColumn(
+            modifier = Modifier.padding(all = 6.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            items(state.data) { animalFact ->
+                AnimalFactListItem(modifier = Modifier, animalFact = animalFact)
+            }
         }
     }
 }
@@ -109,5 +113,4 @@ fun AnimalFactListItem(modifier: Modifier, animalFact: AnimalFact) {
             )
         }
     }
-
 }

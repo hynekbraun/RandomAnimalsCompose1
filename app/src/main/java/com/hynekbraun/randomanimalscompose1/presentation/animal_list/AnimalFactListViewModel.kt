@@ -9,6 +9,9 @@ import androidx.lifecycle.viewModelScope
 import com.hynekbraun.randomanimalscompose1.domain.repository.AnimalFactRepository
 import com.hynekbraun.randomanimalscompose1.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.android.awaitFrame
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -28,6 +31,7 @@ constructor(
     fun onEvent(event: AnimalFactListEvent) {
         when (event) {
             is AnimalFactListEvent.Refresh -> {
+                state = state.copy(isRefreshing = true)
                 getAnimalFactList(true)
             }
             is AnimalFactListEvent.OnSearchQueryChange -> {
@@ -47,6 +51,10 @@ constructor(
                                 state =
                                     state.copy(data = animalFacts)
                             }
+                            //FIXME This should not be hard coded, but I have no idea where to put it to work
+                            delay(1500L)
+                            state = state.copy(isRefreshing = false)
+
                             Log.d("TAG", "AnimalFactViewModel - Success")
                         }
                         is Resource.Loading -> {
