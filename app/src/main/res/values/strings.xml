@@ -8,4 +8,13 @@
     <string name="contentDesc_image">Animal Image</string>
 
 
+    //AnimalFact Detail Screen
+    <string name="animDetail_type">Type:</string>
+    <string name="animDetail_diet">Diet:</string>
+    <string name="animDetail_habitat">Habitat:</string>
+    <string name="animDetail_lifespan">Lifespan:</string>
+    <string name="animDetail_weight">Weight:</string>
+
+
+
 </resources>

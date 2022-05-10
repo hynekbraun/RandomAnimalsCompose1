@@ -15,4 +15,12 @@ data class AnimalFact(
     val name: String,
     val weight_max: String,
     val weight_min: String
-)
+){
+}
+
+fun AnimalFact.weight(): String{
+    return "$weight_min - $weight_max"
+}
+fun AnimalFact.length(): String{
+    return "$length_min - $length_max"
+}

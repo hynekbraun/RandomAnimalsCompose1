@@ -9,10 +9,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
-import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.currentCompositionLocalContext
 import androidx.compose.runtime.mutableStateOf
@@ -31,15 +28,18 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import coil.compose.SubcomposeAsyncImage
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.hynekbraun.randomanimalscompose1.R
 import com.hynekbraun.randomanimalscompose1.domain.model.AnimalFact
+import com.hynekbraun.randomanimalscompose1.presentation.navigation.NavScreen
 
 @Composable
 fun AnimalFactListScreen(
-    viewModel: AnimalFactListViewModel = hiltViewModel()
+    viewModel: AnimalFactListViewModel = hiltViewModel(),
+    navController: NavController
 ) {
     val swipeRefreshState = rememberSwipeRefreshState(
         isRefreshing = viewModel.state.isRefreshing
@@ -49,26 +49,40 @@ fun AnimalFactListScreen(
         viewModel.onEvent(AnimalFactListEvent.Refresh)
     }) {
         LazyColumn(
-            modifier = Modifier.padding(all = 6.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+            modifier = Modifier
+                .padding(all = 6.dp)
+                .fillMaxWidth(),
+            horizontalAlignment = CenterHorizontally
         ) {
             items(state.data) { animalFact ->
-                AnimalFactListItem(modifier = Modifier, animalFact = animalFact)
+                AnimalFactListItem(
+                    modifier = Modifier,
+                    animalFact = animalFact,
+                    navController = navController
+                )
             }
         }
     }
 }
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun AnimalFactListItem(modifier: Modifier, animalFact: AnimalFact) {
+fun AnimalFactListItem(
+    modifier: Modifier,
+    animalFact: AnimalFact,
+    navController: NavController
+) {
     Card(
         modifier = modifier
             .padding(6.dp)
             .fillMaxWidth(0.9f)
-            .height(200.dp)
+            .height(200.dp),
+        onClick = {
+            navController.navigate(NavScreen.DetailScreen.withArgs(animalFact.id.toString()))
+        }
     ) {
         Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
+            horizontalAlignment = CenterHorizontally,
             modifier = Modifier.background(
                 brush = Brush.verticalGradient(
                     colors = listOf(

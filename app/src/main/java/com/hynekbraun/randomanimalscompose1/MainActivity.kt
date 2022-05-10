@@ -3,16 +3,10 @@ package com.hynekbraun.randomanimalscompose1
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.hynekbraun.randomanimalscompose1.presentation.animal_detail.AnimalFactDetailScreen
-import com.hynekbraun.randomanimalscompose1.presentation.animal_list.AnimalFactListScreen
+import com.hynekbraun.randomanimalscompose1.presentation.navigation.Navigation
 import com.hynekbraun.randomanimalscompose1.ui.theme.RandomAnimalsCompose1Theme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -26,8 +20,7 @@ class MainActivity : ComponentActivity() {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                 ) {
-//                    AnimalFactListScreen()
-                    AnimalFactDetailScreen()
+                    Navigation()
                 }
             }
         }

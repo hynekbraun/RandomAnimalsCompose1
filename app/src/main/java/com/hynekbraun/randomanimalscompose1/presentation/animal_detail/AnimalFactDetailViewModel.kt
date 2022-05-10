@@ -16,16 +16,13 @@ constructor(
 ) : ViewModel() {
     var state by mutableStateOf(AnimalFactDetailState())
 
-    init {
-        getAnimalFact(5)
-    }
     fun getAnimalFact(id: Int) {
         viewModelScope.launch {
             state = state.copy(isLoading = true)
             try {
                 val animalFact = repository.getAnimaFactById(id)
                 animalFact.let { result ->
-                    state = state.copy(result)
+                    state = state.copy(data = result)
                 }
             } catch (e: Exception) {
                 state = state.copy(error = e.localizedMessage)
