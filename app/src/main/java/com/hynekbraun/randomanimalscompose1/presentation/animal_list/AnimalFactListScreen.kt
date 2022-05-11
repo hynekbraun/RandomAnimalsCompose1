@@ -1,27 +1,16 @@
 package com.hynekbraun.randomanimalscompose1.presentation.animal_list
 
-import android.content.Context
-import android.graphics.Paint
-import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.currentCompositionLocalContext
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Alignment.Companion.Bottom
 import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
-import androidx.compose.ui.Alignment.Companion.End
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -34,6 +23,8 @@ import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.hynekbraun.randomanimalscompose1.R
 import com.hynekbraun.randomanimalscompose1.domain.model.AnimalFact
+import com.hynekbraun.randomanimalscompose1.presentation.ErrorState.LoadingState
+import com.hynekbraun.randomanimalscompose1.presentation.ErrorState.ShowErrorMessage
 import com.hynekbraun.randomanimalscompose1.presentation.navigation.NavScreen
 
 @Composable
@@ -48,6 +39,13 @@ fun AnimalFactListScreen(
     SwipeRefresh(state = swipeRefreshState, onRefresh = {
         viewModel.onEvent(AnimalFactListEvent.Refresh)
     }) {
+        if (state.isLoading && state.data.isEmpty()) {
+            Box(modifier = Modifier.fillMaxSize()) {
+                LoadingState(modifier = Modifier.align(Center), error = state.error)
+            }
+        } else if (!state.error.isNullOrEmpty()) {
+            ShowErrorMessage(error = state.error.toString())
+        }
         LazyColumn(
             modifier = Modifier
                 .padding(all = 6.dp)

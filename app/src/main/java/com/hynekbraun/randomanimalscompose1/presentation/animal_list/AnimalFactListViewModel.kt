@@ -1,5 +1,7 @@
 package com.hynekbraun.randomanimalscompose1.presentation.animal_list
 
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.util.Log
 import androidx.compose.runtime.*
 import androidx.lifecycle.ViewModel
@@ -7,10 +9,7 @@ import androidx.lifecycle.viewModelScope
 import com.hynekbraun.randomanimalscompose1.domain.repository.AnimalFactRepository
 import com.hynekbraun.randomanimalscompose1.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.android.awaitFrame
-import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -39,7 +38,6 @@ constructor(
     }
 
     private fun getAnimalFactList(fetchFromRemote: Boolean = false) {
-
         viewModelScope.launch {
             repository.getAnimalFacts(fetchFromRemote = fetchFromRemote)
                 .collect { result ->
@@ -68,7 +66,5 @@ constructor(
                     }
                 }
         }
-
     }
-
 }

@@ -6,5 +6,6 @@ data class AnimalFactListState(
     val data: List<AnimalFact> = emptyList(),
     val isLoading: Boolean = false,
     val isRefreshing: Boolean = false,
-    val error: String? = null
+    val error: String? = null,
+    val internetAvailability: Boolean = false
 )
