@@ -6,6 +6,7 @@ import com.hynekbraun.randomanimalscompose1.data.mapper.toAnimalFactEntity
 import com.hynekbraun.randomanimalscompose1.data.remote.AnimalFactApi
 import com.hynekbraun.randomanimalscompose1.domain.model.AnimalFact
 import com.hynekbraun.randomanimalscompose1.domain.repository.AnimalFactRepository
+import com.hynekbraun.randomanimalscompose1.presentation.ErrorState.ErrorState
 import com.hynekbraun.randomanimalscompose1.util.Resource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -42,10 +43,10 @@ constructor(
                 emit(Resource.Success(data = dao.getAnimals().map { it.toAnimalFact() }))
             } catch (e: IOException) {
                 e.printStackTrace()
-                emit(Resource.Error(message = e.localizedMessage))
+                emit(Resource.Error(error = ErrorState.IOError))
             } catch (e: HttpException) {
                 e.printStackTrace()
-                emit(Resource.Error(message = e.localizedMessage))
+                emit(Resource.Error(error = ErrorState.HttpError))
             }
         }
 

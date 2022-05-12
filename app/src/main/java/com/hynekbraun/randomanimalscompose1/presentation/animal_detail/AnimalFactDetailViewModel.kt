@@ -4,6 +4,7 @@ import androidx.compose.runtime.*
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hynekbraun.randomanimalscompose1.domain.repository.AnimalFactRepository
+import com.hynekbraun.randomanimalscompose1.presentation.ErrorState.ErrorState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -25,7 +26,8 @@ constructor(
                     state = state.copy(data = result)
                 }
             } catch (e: Exception) {
-                state = state.copy(error = e.localizedMessage)
+                //change later
+                state = state.copy(error = ErrorState.NetworkError)
             }
         }
     }

@@ -17,3 +17,5 @@ class App: Application()
 //if the user decides he does not want to fetch again
 
 //Add appbar with dark mode toggle and potentially search window
+
+//Change navigation, nav controller should not be passed as a parameter

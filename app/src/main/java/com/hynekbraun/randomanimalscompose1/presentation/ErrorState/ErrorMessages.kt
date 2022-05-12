@@ -1,36 +1,41 @@
 package com.hynekbraun.randomanimalscompose1.presentation.ErrorState
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import com.hynekbraun.randomanimalscompose1.R
 
 
 @Composable
-fun ShowErrorMessage(error: String) {
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(4.dp)
-    ) {
-        Text(text = error)
+fun ShowErrorMessage(modifier: Modifier, error: ErrorState) {
+    var errorText by remember {
+        mutableStateOf("")
     }
+    when (error) {
+        is ErrorState.NetworkError -> errorText = stringResource(id = R.string.error_network)
+        is ErrorState.IOError -> errorText = stringResource(id = R.string.error_IO)
+        is ErrorState.HttpError -> errorText = stringResource(id = R.string.error_Http)
+    }
+    Text(
+        modifier = modifier,
+        text = errorText
+    )
 }
 
 @Composable
-fun LoadingState(modifier: Modifier, error: String?) {
-    //FIXME this string cant be hardcoded
-    val text = remember { mutableStateOf(error ?: "Please check your connection") }
-    Column(
+fun LoadingState(modifier: Modifier) {
+    Image(
         modifier = modifier,
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text(text = text.value)
-    }
+        painter = painterResource(id = R.drawable.ic_empty),
+        contentDescription = stringResource(R.string.error_empty)
+    )
+    CircularProgressIndicator(
+        modifier = modifier
+    )
 
 }

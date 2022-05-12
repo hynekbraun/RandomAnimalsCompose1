@@ -14,7 +14,10 @@
     <string name="animDetail_habitat">Habitat:</string>
     <string name="animDetail_lifespan">Lifespan:</string>
     <string name="animDetail_weight">Weight:</string>
-
+    <string name="error_empty">Empty List</string>
+    <string name="error_network">Network Error</string>
+    <string name="error_IO">IO Error</string>
+    <string name="error_Http">Http Error</string>
 
 
 </resources>

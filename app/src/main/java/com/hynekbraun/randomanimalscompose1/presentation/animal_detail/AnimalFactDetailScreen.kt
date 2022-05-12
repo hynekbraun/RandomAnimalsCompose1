@@ -26,6 +26,7 @@ import com.hynekbraun.randomanimalscompose1.R
 import com.hynekbraun.randomanimalscompose1.domain.model.AnimalFact
 import com.hynekbraun.randomanimalscompose1.domain.model.length
 import com.hynekbraun.randomanimalscompose1.domain.model.weight
+import com.hynekbraun.randomanimalscompose1.presentation.ErrorState.ErrorState
 import com.hynekbraun.randomanimalscompose1.presentation.ErrorState.ShowErrorMessage
 import com.hynekbraun.randomanimalscompose1.presentation.animal_list.AnimalFactListViewModel
 
@@ -37,8 +38,8 @@ fun AnimalFactDetailScreen(
     viewModel.getAnimalFact(id?.toInt() ?: 0)
     val state = viewModel.state
     val scrollState = rememberScrollState()
-    if (!state.error.isNullOrEmpty()) {
-        ShowErrorMessage(error = state.error)
+    if (state.error != ErrorState.NoError) {
+        ShowErrorMessage(modifier = Modifier, error = state.error)
     }
     state.data?.let { animalFact ->
         Column(

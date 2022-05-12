@@ -23,6 +23,7 @@ import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.hynekbraun.randomanimalscompose1.R
 import com.hynekbraun.randomanimalscompose1.domain.model.AnimalFact
+import com.hynekbraun.randomanimalscompose1.presentation.ErrorState.ErrorState
 import com.hynekbraun.randomanimalscompose1.presentation.ErrorState.LoadingState
 import com.hynekbraun.randomanimalscompose1.presentation.ErrorState.ShowErrorMessage
 import com.hynekbraun.randomanimalscompose1.presentation.navigation.NavScreen
@@ -41,24 +42,36 @@ fun AnimalFactListScreen(
     }) {
         if (state.isLoading && state.data.isEmpty()) {
             Box(modifier = Modifier.fillMaxSize()) {
-                LoadingState(modifier = Modifier.align(Center), error = state.error)
+                LoadingState(modifier = Modifier.align(Center))
             }
-        } else if (!state.error.isNullOrEmpty()) {
-            ShowErrorMessage(error = state.error.toString())
+            //could add && data.inNotEmpty so we make sure it does not trigger when there is no data
+        } else if (state.error != ErrorState.NoError && state.data.isEmpty()) {
+            Box(modifier = Modifier.fillMaxSize()) {
+                ShowErrorMessage(modifier = Modifier.align(Center), error = state.error)
+            }
+        } else {
+            AnimalFactList(state.data, navController)
         }
-        LazyColumn(
-            modifier = Modifier
-                .padding(all = 6.dp)
-                .fillMaxWidth(),
-            horizontalAlignment = CenterHorizontally
-        ) {
-            items(state.data) { animalFact ->
-                AnimalFactListItem(
-                    modifier = Modifier,
-                    animalFact = animalFact,
-                    navController = navController
-                )
-            }
+    }
+}
+
+@Composable
+private fun AnimalFactList(
+    animalFacts: List<AnimalFact>,
+    navController: NavController
+) {
+    LazyColumn(
+        modifier = Modifier
+            .padding(all = 6.dp)
+            .fillMaxWidth(),
+        horizontalAlignment = CenterHorizontally
+    ) {
+        items(animalFacts) { animalFact ->
+            AnimalFactListItem(
+                modifier = Modifier,
+                animalFact = animalFact,
+                navController = navController
+            )
         }
     }
 }
