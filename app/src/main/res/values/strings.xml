@@ -1,8 +1,5 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
-    //common
-    <string name="app_name">RandomAnimalsCompose1</string>
-    <string name="common_error">Error</string>
 
     //AnimalFact List Screen
     <string name="contentDesc_image">Animal Image</string>
@@ -14,10 +11,20 @@
     <string name="animDetail_habitat">Habitat:</string>
     <string name="animDetail_lifespan">Lifespan:</string>
     <string name="animDetail_weight">Weight:</string>
+
+    //Error
     <string name="error_empty">Empty List</string>
-    <string name="error_network">Network Error</string>
+    <string name="error_network">No network connection</string>
     <string name="error_IO">IO Error</string>
     <string name="error_Http">Http Error</string>
 
+    //common
+    <string name="app_name" tools:ignore="Typos">RandomAnimalsCompose1</string>
+    <string name="common_error">Error</string>
+    <string name="common_retry">Retry</string>
+    <string name="common_dismiss">Dismiss</string>
+    <string name="noDataScreen_noData">No data loaded</string>
+    <string name="noDataScreen_swipeToRefresh">Swipe down to refresh</string>
+    <string name="loadingScreen_loadingData">Loading data</string>
 
 </resources>

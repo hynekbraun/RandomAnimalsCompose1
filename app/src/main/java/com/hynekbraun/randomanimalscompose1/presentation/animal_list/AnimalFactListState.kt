@@ -8,5 +8,5 @@ data class AnimalFactListState(
     val isLoading: Boolean = false,
     val isRefreshing: Boolean = false,
     val error: ErrorState = ErrorState.NoError,
-    val internetAvailability: Boolean = false
+    val internetAvailability: Boolean = true
 )

@@ -1,35 +1,20 @@
 package com.hynekbraun.randomanimalscompose1.presentation.animal_list
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
+import android.util.Log
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.material.*
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import coil.compose.SubcomposeAsyncImage
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
-import com.hynekbraun.randomanimalscompose1.R
-import com.hynekbraun.randomanimalscompose1.domain.model.AnimalFact
-import com.hynekbraun.randomanimalscompose1.presentation.ErrorState.ErrorState
-import com.hynekbraun.randomanimalscompose1.presentation.ErrorState.LoadingState
-import com.hynekbraun.randomanimalscompose1.presentation.ErrorState.ShowErrorMessage
-import com.hynekbraun.randomanimalscompose1.presentation.navigation.NavScreen
+import com.hynekbraun.randomanimalscompose1.presentation.animal_list.screenState.AnimalFactList
+import com.hynekbraun.randomanimalscompose1.presentation.animal_list.screenState.LoadingScreen
 
 @Composable
 fun AnimalFactListScreen(
+    modifier: Modifier = Modifier,
     viewModel: AnimalFactListViewModel = hiltViewModel(),
     navController: NavController
 ) {
@@ -37,105 +22,52 @@ fun AnimalFactListScreen(
         isRefreshing = viewModel.state.isRefreshing
     )
     val state = viewModel.state
-    SwipeRefresh(state = swipeRefreshState, onRefresh = {
-        viewModel.onEvent(AnimalFactListEvent.Refresh)
-    }) {
-        if (state.isLoading && state.data.isEmpty()) {
-            Box(modifier = Modifier.fillMaxSize()) {
-                LoadingState(modifier = Modifier.align(Center))
-            }
-            //could add && data.inNotEmpty so we make sure it does not trigger when there is no data
-        } else if (state.error != ErrorState.NoError && state.data.isEmpty()) {
-            Box(modifier = Modifier.fillMaxSize()) {
-                ShowErrorMessage(modifier = Modifier.align(Center), error = state.error)
-            }
-        } else {
-            AnimalFactList(state.data, navController)
-        }
-    }
-}
-
-@Composable
-private fun AnimalFactList(
-    animalFacts: List<AnimalFact>,
-    navController: NavController
-) {
-    LazyColumn(
-        modifier = Modifier
-            .padding(all = 6.dp)
-            .fillMaxWidth(),
-        horizontalAlignment = CenterHorizontally
+    SwipeRefresh(
+        state = swipeRefreshState, onRefresh = {
+            viewModel.onEvent(AnimalFactListEvent.Refresh)
+        },
+        modifier = modifier.fillMaxSize()
     ) {
-        items(animalFacts) { animalFact ->
-            AnimalFactListItem(
-                modifier = Modifier,
-                animalFact = animalFact,
-                navController = navController
+        Column(modifier = Modifier.fillMaxSize()) {
+
+/*
+This works better with observing connection, but I don't think I need it here.
+The other option was to show a dialog, but I think It was a bit disturbing
+and annoying to have to click on a button
+*/
+            NoConnectionBanner(
+                state.internetAvailability,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .align(CenterHorizontally)
             )
-        }
-    }
-}
-
-@OptIn(ExperimentalMaterialApi::class)
-@Composable
-fun AnimalFactListItem(
-    modifier: Modifier,
-    animalFact: AnimalFact,
-    navController: NavController
-) {
-    Card(
-        modifier = modifier
-            .padding(6.dp)
-            .fillMaxWidth(0.9f)
-            .height(200.dp),
-        onClick = {
-            navController.navigate(NavScreen.DetailScreen.withArgs(animalFact.id.toString()))
-        }
-    ) {
-        Column(
-            horizontalAlignment = CenterHorizontally,
-            modifier = Modifier.background(
-                brush = Brush.verticalGradient(
-                    colors = listOf(
-                        Color.Gray,
-                        Color.LightGray
-                    )
+            /*
+           Probably the worst way to do this, but this is the best I could come up so far.
+           I will have to change this and make some research on taht.
+            */
+            if (state.data.isEmpty() && !state.isLoading) {
+                Log.d("TAG", "AnimalFactListScreen - NoDataScreen")
+                NoDataScreen(
+                    data = state.data,
+                    modifier = Modifier
+                        .align(CenterHorizontally)
+                        .fillMaxSize()
                 )
-            )
-        ) {
-            Text(
-                text = animalFact.name,
-                modifier = Modifier
-            )
-            SubcomposeAsyncImage(
-                modifier = Modifier
-                    .padding(4.dp)
-                    .clip(MaterialTheme.shapes.medium),
-                model = animalFact.image_link,
-                contentDescription = stringResource(
-                    R.string.contentDesc_image
-                ),
-                loading = {
-                    Box(
-                        modifier
-                            .fillMaxSize()
-                    ) {
-                        CircularProgressIndicator(
-                            modifier = Modifier
-                                .align(Center)
-                        )
-                    }
-                },
-                error = {
-                    Image(
-                        modifier = Modifier.fillMaxSize(),
-                        painter = painterResource(id = R.drawable.ic_error),
-                        contentDescription = stringResource(
-                            R.string.common_error,
-                        )
-                    )
-                },
-            )
+            } else if (state.data.isEmpty() && state.isLoading) {
+                Log.d("TAG", "AnimalFactListScreen - LoadingScreen")
+                LoadingScreen(
+                    modifier = Modifier
+                        .fillMaxSize()
+                )
+            } else if (state.data.isNotEmpty()) {
+                Log.d("TAG", "AnimalFactListScreen - AnimalFactList")
+                AnimalFactList(
+                    animalFacts = state.data,
+                    navController = navController,
+                    modifier = Modifier.fillMaxSize()
+                )
+            }
         }
+
     }
 }
