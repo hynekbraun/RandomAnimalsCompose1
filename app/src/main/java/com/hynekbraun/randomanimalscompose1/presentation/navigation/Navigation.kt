@@ -18,7 +18,12 @@ fun Navigation() {
         startDestination = NavScreen.ListScreen.route
     ) {
         composable(route = NavScreen.ListScreen.route) {
-            AnimalFactListScreen(navController = navController)
+            AnimalFactListScreen(
+                onNavigateToAnimalDetail = {
+                    navController.navigate(
+                        NavScreen.DetailScreen.withArgs(it.toString())
+                    )
+                })
         }
         composable(route = NavScreen.DetailScreen.route + "/{id}",
             arguments = listOf(

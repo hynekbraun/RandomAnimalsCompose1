@@ -16,7 +16,7 @@ import com.hynekbraun.randomanimalscompose1.presentation.animal_list.screenState
 fun AnimalFactListScreen(
     modifier: Modifier = Modifier,
     viewModel: AnimalFactListViewModel = hiltViewModel(),
-    navController: NavController
+    onNavigateToAnimalDetail: (Int) -> Unit
 ) {
     val swipeRefreshState = rememberSwipeRefreshState(
         isRefreshing = viewModel.state.isRefreshing
@@ -63,7 +63,7 @@ and annoying to have to click on a button
                 Log.d("TAG", "AnimalFactListScreen - AnimalFactList")
                 AnimalFactList(
                     animalFacts = state.data,
-                    navController = navController,
+                    onNavigateToAnimalDetail = onNavigateToAnimalDetail,
                     modifier = Modifier.fillMaxSize()
                 )
             }

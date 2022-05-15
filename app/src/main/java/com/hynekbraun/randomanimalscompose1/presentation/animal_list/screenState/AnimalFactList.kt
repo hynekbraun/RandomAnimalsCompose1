@@ -2,6 +2,7 @@ package com.hynekbraun.randomanimalscompose1.presentation.animal_list.screenStat
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -22,9 +23,9 @@ import com.hynekbraun.randomanimalscompose1.domain.model.AnimalFact
 import com.hynekbraun.randomanimalscompose1.presentation.navigation.NavScreen
 
 @Composable
- fun AnimalFactList(
+fun AnimalFactList(
     animalFacts: List<AnimalFact>,
-    navController: NavController,
+    onNavigateToAnimalDetail: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
 //    NoDataScreen(animalFacts)
@@ -38,28 +39,24 @@ import com.hynekbraun.randomanimalscompose1.presentation.navigation.NavScreen
             AnimalFactListItem(
                 modifier = Modifier,
                 animalFact = animalFact,
-                navController = navController
+                onItemClick = onNavigateToAnimalDetail
             )
         }
     }
 }
 
-
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun AnimalFactListItem(
     modifier: Modifier,
     animalFact: AnimalFact,
-    navController: NavController
+    onItemClick: (Int) -> Unit
 ) {
     Card(
         modifier = modifier
             .padding(6.dp)
             .fillMaxWidth(0.9f)
-            .height(200.dp),
-        onClick = {
-            navController.navigate(NavScreen.DetailScreen.withArgs(animalFact.id.toString()))
-        }
+            .height(200.dp)
+            .clickable { onItemClick (animalFact.id) }
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
