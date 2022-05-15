@@ -21,19 +21,18 @@ fun Navigation() {
             AnimalFactListScreen(
                 onNavigateToAnimalDetail = {
                     navController.navigate(
-                        NavScreen.DetailScreen.withArgs(it.toString())
+                        "${NavScreen.DetailScreen.route}/$it"
                     )
                 })
         }
-        composable(route = NavScreen.DetailScreen.route + "/{id}",
+        composable(route = NavScreen.DetailScreen.route + "/{${NavArguments.ANIMAL_ID}}",
             arguments = listOf(
-                navArgument("id") {
-                    type = NavType.StringType
-                    nullable = true
+                navArgument(NavArguments.ANIMAL_ID) {
+                    type = NavType.IntType
                 }
             )
         ) { entry ->
-            AnimalFactDetailScreen(id = entry.arguments?.getString("id"))
+            AnimalFactDetailScreen(id = entry.arguments?.getInt(NavArguments.ANIMAL_ID) ?: 0)
 
         }
     }

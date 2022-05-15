@@ -33,9 +33,9 @@ import com.hynekbraun.randomanimalscompose1.presentation.animal_list.AnimalFactL
 @Composable
 fun AnimalFactDetailScreen(
     viewModel: AnimalFactDetailViewModel = hiltViewModel(),
-    id: String?
+    id: Int
 ) {
-    viewModel.getAnimalFact(id?.toInt() ?: 0)
+    viewModel.getAnimalFact(id)
     val state = viewModel.state
     val scrollState = rememberScrollState()
     if (state.error != ErrorState.NoError) {
