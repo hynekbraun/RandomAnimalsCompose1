@@ -10,7 +10,6 @@ class App : Application()
 
 -- DONE
 Change navigation, nav controller should not be passed as a parameter
-***Done
 
 -- ALMOST DONE
 Connection - show a dialog with a try again button

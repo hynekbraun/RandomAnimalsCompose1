@@ -83,7 +83,7 @@ so it feels more natural. Ideally the button should go up when the images load u
 
                                 }
                                 is Resource.Error -> {
-                                    state = state.copy(error = result.error)
+                                    state = state.copy(error = result.error, isLoading = false)
                                     Log.d("TAG", "AnimalFactViewModel - Error")
                                 }
                             }
