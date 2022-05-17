@@ -2,6 +2,8 @@ package com.hynekbraun.randomanimalscompose1.presentation.animal_list
 
 import android.util.Log
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Scaffold
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
@@ -27,18 +29,21 @@ fun AnimalFactListScreen(
     val swipeRefreshState = rememberSwipeRefreshState(
         isRefreshing = viewModel.state.isRefreshing
     )
-    val coroutineScope = rememberCoroutineScope()
     val scaffoldState = rememberScaffoldState()
     val state = viewModel.state
-    Scaffold(scaffoldState = scaffoldState,
-    modifier = Modifier.fillMaxSize()) {
+    Scaffold(
+        scaffoldState = scaffoldState,
+        modifier = Modifier.fillMaxSize()
+    ) {
         SwipeRefresh(
-            state = swipeRefreshState, onRefresh = {
+            state = swipeRefreshState,
+            onRefresh = {
                 viewModel.onEvent(AnimalFactListEvent.Refresh)
             },
-            modifier = modifier.fillMaxSize()
-        ) {
-            Column(modifier = Modifier.fillMaxSize()) {
+            modifier = modifier.fillMaxSize(),
+
+            ) {
+            Column(modifier = Modifier.fillMaxSize(),) {
 
 /*
 This works better with observing connection, but I don't think I need it here.
@@ -62,6 +67,7 @@ and annoying to have to click on a button
                         modifier = Modifier
                             .fillMaxSize()
                             .align(CenterHorizontally)
+                            .verticalScroll(rememberScrollState())
                     )
                 } else if (state.data.isEmpty() && state.isLoading) {
                     Log.d("TAG", "AnimalFactListScreen - LoadingScreen")

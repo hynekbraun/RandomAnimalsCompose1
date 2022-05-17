@@ -29,7 +29,7 @@ fun NoDataScreen(data: List<AnimalFact>, modifier: Modifier = Modifier) {
         Column(
             modifier = modifier,
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
+            verticalArrangement = Arrangement.Center,
         ) {
             Image(
                 painter = painterResource(id = R.drawable.ic_error),
