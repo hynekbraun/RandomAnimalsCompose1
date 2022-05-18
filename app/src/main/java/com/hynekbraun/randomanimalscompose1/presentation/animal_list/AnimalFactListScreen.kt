@@ -56,10 +56,10 @@ and annoying to have to click on a button
                         .fillMaxWidth()
                         .align(CenterHorizontally)
                 )
-                /*
-               Probably the worst way to do this, but this is the best I could come up so far.
-               I will have to change this and make some research on taht.
-                */
+/*
+Probably the worst way to do this, but this is the best I could come up so far.
+I will have to change this and make some research on taht.
+ */
                 if (state.data.isEmpty() && !state.isLoading) {
                     Log.d("TAG", "AnimalFactListScreen - NoDataScreen")
                     NoDataScreen(

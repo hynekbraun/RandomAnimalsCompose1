@@ -46,7 +46,7 @@ fun AnimalFactList(
 }
 
 @Composable
-fun AnimalFactListItem(
+private fun AnimalFactListItem(
     modifier: Modifier,
     animalFact: AnimalFact,
     onItemClick: (Int) -> Unit
