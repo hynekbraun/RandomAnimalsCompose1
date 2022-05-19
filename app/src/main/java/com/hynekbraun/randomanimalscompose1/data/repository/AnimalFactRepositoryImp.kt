@@ -2,6 +2,7 @@ package com.hynekbraun.randomanimalscompose1.data.repository
 
 import android.util.Log
 import com.hynekbraun.randomanimalscompose1.data.local.AnimalFactDatabase
+import com.hynekbraun.randomanimalscompose1.data.local.AnimalFactEntity
 import com.hynekbraun.randomanimalscompose1.data.mapper.toAnimalFact
 import com.hynekbraun.randomanimalscompose1.data.mapper.toAnimalFactEntity
 import com.hynekbraun.randomanimalscompose1.data.remote.AnimalFactApi
