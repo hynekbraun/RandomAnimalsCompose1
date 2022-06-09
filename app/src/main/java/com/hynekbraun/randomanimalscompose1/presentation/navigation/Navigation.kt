@@ -33,8 +33,6 @@ fun Navigation() {
             )
         ) { entry ->
             AnimalFactDetailScreen(id = entry.arguments?.getInt(NavArguments.ANIMAL_ID) ?: 0)
-
         }
     }
-
 }

@@ -5,8 +5,11 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Scaffold
+import androidx.compose.material.SnackbarHostState
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
@@ -18,6 +21,7 @@ import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.hynekbraun.randomanimalscompose1.presentation.ErrorState.ErrorState
 import com.hynekbraun.randomanimalscompose1.presentation.animal_list.screenState.AnimalFactList
 import com.hynekbraun.randomanimalscompose1.presentation.animal_list.screenState.LoadingScreen
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @Composable
@@ -31,6 +35,14 @@ fun AnimalFactListScreen(
     )
     val scaffoldState = rememberScaffoldState()
     val state = viewModel.state
+    val error = viewModel.errorFlow
+    
+    LaunchedEffect(error){
+        error.collectLatest { error ->
+        scaffoldState.snackbarHostState.showSnackbar(error.message)
+        }
+    }
+
     Scaffold(
         scaffoldState = scaffoldState,
         modifier = Modifier.fillMaxSize()
@@ -45,17 +57,6 @@ fun AnimalFactListScreen(
             ) {
             Column(modifier = Modifier.fillMaxSize(),) {
 
-/*
-This works better with observing connection, but I don't think I need it here.
-The other option was to show a dialog, but I think It was a bit disturbing
-and annoying to have to click on a button
-*/
-                NoConnectionBanner(
-                    state.internetAvailability,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .align(CenterHorizontally)
-                )
 /*
 Probably the worst way to do this, but this is the best I could come up so far.
 I will have to change this and make some research on taht.
@@ -84,8 +85,6 @@ I will have to change this and make some research on taht.
                     )
                 }
             }
-
         }
-
     }
 }

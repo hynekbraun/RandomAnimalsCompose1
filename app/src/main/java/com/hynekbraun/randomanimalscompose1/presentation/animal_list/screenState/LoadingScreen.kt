@@ -20,5 +20,4 @@ fun LoadingScreen(modifier: Modifier = Modifier) {
         CircularProgressIndicator()
         Text(text = stringResource(R.string.loadingScreen_loadingData))
     }
-
 }

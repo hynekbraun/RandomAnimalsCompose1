@@ -1,5 +1,6 @@
 package com.hynekbraun.randomanimalscompose1.data.repository
 
+import android.accounts.NetworkErrorException
 import android.util.Log
 import com.hynekbraun.randomanimalscompose1.data.local.AnimalFactDatabase
 import com.hynekbraun.randomanimalscompose1.data.local.AnimalFactEntity
@@ -48,12 +49,16 @@ constructor(
                 Log.d("TAG", "AnimalFactRepository - emit Success")
             } catch (e: IOException) {
                 e.printStackTrace()
-                emit(Resource.Error(error = ErrorState.IOError))
+                emit(Resource.Error(errorState = ErrorState.IOError))
                 Log.d("TAG", "AnimalFactRepository - emit Error - IO Error")
             } catch (e: HttpException) {
                 e.printStackTrace()
-                emit(Resource.Error(error = ErrorState.HttpError))
+                emit(Resource.Error(errorState = ErrorState.HttpError))
                 Log.d("TAG", "AnimalFactRepository - emit Error - Http Error")
+            } catch (e: NetworkErrorException) {
+                e.printStackTrace()
+                emit(Resource.Error(errorState = ErrorState.NetworkError))
+                Log.d("TAG", "AnimalFactRepository - emit Error - Network Error")
             }
         }
 
